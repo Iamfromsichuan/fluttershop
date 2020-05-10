@@ -3,6 +3,7 @@ import 'package:provide/provide.dart';
 import 'package:shop/pages/index_page.dart';
 import './config/index.dart';
 import './provide/current_index_provide.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
   var currentIndexProvide = CurrentIndexProvide();

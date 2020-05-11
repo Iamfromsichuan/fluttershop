@@ -1,4 +1,4 @@
-const baseUrl = "http://192.168.0.103:3000/";
+const baseUrl = "http://192.168.0.102:3000/";
 
 const servicePath = {
   'homePageContext': baseUrl + "homePageContext", // 首页数据

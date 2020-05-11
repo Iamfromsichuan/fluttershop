@@ -25,9 +25,18 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.hasData) {
             var data = jsonDecode(snapshot.data.toString());
             print(data);
+
+            List<Map> swiperDataList = (data["data"]["slides"] as List).cast();
+            List<Map> categoryList = (data["data"]["category"] as List).cast();
+            List<Map> recommendList = (data["data"]["recommend"] as List).cast();
+            List<Map> floor1 = (data["data"]["floor1"] as List).cast();
+            Map fp1 = data["data"]['floor1Pic'];
+            return Container(
+              child: Text("123123"),
+            );
           }
           return Container(
-            child: Text("21312"),
+            child: Text("数据加载中"),
           );
         },
       ),

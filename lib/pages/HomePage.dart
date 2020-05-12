@@ -18,6 +18,9 @@ class _HomePageState extends State<HomePage>
   @override
   bool get wantKeepAlive => false;
 
+  int page = 1;
+  List<Map> hotGoodsList = [];
+
   GlobalKey<RefreshFooterState> _footerKey =
       new GlobalKey<RefreshFooterState>();
 
@@ -33,7 +36,16 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       backgroundColor: Color.fromRGBO(244, 245, 245, 1.0),
       appBar: AppBar(
-        title: Text(KString.homeTitle),
+        centerTitle: true,
+        title: Text(
+          KString.homeTitle,
+          textAlign: TextAlign.center,
+//            maxLines: 1,
+//            overflow: TextOverflow.ellipsis, // 显示不完，就在后面显示点点
+//            style: TextStyle(
+//              fontSize: 30.0,
+//              color: Colors.yellow, )
+        ),
       ),
       body: FutureBuilder(
         future: request("homePageContext", formData: null),
@@ -66,11 +78,16 @@ class _HomePageState extends State<HomePage>
                   RecommendListUI(
                     recommendList: recommendList,
                   ),
-                  FloorPicUI(floorPic: fp1,),
+                  FloorPicUI(
+                    floorPic: fp1,
+                  ),
+                  Floor(floor: floor1),
+                  _hotGoods(),
                 ],
               ),
               loadMore: () async {
                 print("正在加载");
+                _getHotGoods();
               },
             );
           }
@@ -78,6 +95,190 @@ class _HomePageState extends State<HomePage>
             child: Text('加载中'),
           );
         },
+      ),
+    );
+  }
+  Widget _hotGoods() {
+    return Container(
+      child: Column(
+        children: [
+          hotTitle,
+          _wrapList(),
+        ],
+      ),
+    );
+  }
+
+  void _getHotGoods() {
+    var formData = {'page': page};
+    request("getHotGoods", formData: formData).then((value) {
+      var data = json.decode(value.toString());
+      print(data);
+      List<Map> newGoodsList = (data["data"] as List).cast();
+      setState(() {
+        hotGoodsList.addAll(newGoodsList);
+        page++;
+      });
+    });
+  }
+
+  Widget hotTitle = Container(
+    margin: EdgeInsets.only(top: 10.0),
+    padding: EdgeInsets.all(5.0),
+    alignment: Alignment.center,
+    decoration: BoxDecoration(
+      color: Colors.white,
+      border: Border(
+        bottom: BorderSide(
+          width: 0.5, color: KColor.defaultBorderColor
+        )
+      )
+    ),
+    child: Text(
+      "火爆专区",
+      style: TextStyle(
+        color: KColor.homeSubTitleColor
+      ),
+    ),
+  );
+
+  Widget _wrapList() {
+    if (!hotGoodsList.isEmpty) {
+      List<Widget> listWrap = hotGoodsList.map((val) {
+        return InkWell(
+          onTap: () {},
+          child: Container(
+            width: ScreenUtil().setWidth(372),
+            color: Colors.white,
+            padding: EdgeInsets.all(5.0),
+            margin: EdgeInsets.only(bottom: 3.0),
+            child: Column(
+              children: [
+                Image.network(
+                  val["image"],
+                  width: ScreenUtil().setWidth(375),
+                  height: 200,
+                  fit: BoxFit.cover,
+                ),
+                Text(
+                  val["name"],
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(26)
+                  ),
+                ),
+                Row(
+                  children: [
+                    Text('¥${val["presentPrice"]}', style: TextStyle(
+                      color: Colors.black26,
+                    ),),
+                    Text('¥${val["oriPrice"]}', style: TextStyle(
+                      decoration: TextDecoration.lineThrough
+                    ),),
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      }).toList();
+      return Wrap(
+        spacing: 2,
+        children: listWrap,
+      );
+    }
+    return Text('');
+  }
+}
+
+class Floor extends StatelessWidget {
+  final List<Map> floor;
+
+  Floor({Key key, this.floor}) : super(key: key);
+
+  void jumpDetail(context, String goodId) {}
+
+  @override
+  Widget build(BuildContext context) {
+    double width = ScreenUtil.screenWidth;
+    return Container(
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                Container(
+                    padding: EdgeInsets.only(top: 4, bottom: 1, left: 1),
+                    height: ScreenUtil().setHeight(400),
+                    child: InkWell(
+                      onTap: () {
+                        jumpDetail(context, floor[0]["goodsId"]);
+                      },
+                      child: Image.network(
+                        floor[0]["image"],
+                        fit: BoxFit.cover,
+                      ),
+                    )),
+                Container(
+                    padding: EdgeInsets.only(top: 1, right: 1),
+                    height: ScreenUtil().setHeight(200),
+                    child: InkWell(
+                      onTap: () {
+                        jumpDetail(context, floor[1]["goodsId"]);
+                      },
+                      child: Image.network(
+                        floor[1]["image"],
+                        fit: BoxFit.cover,
+                      ),
+                    )),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              children: [
+                Container(
+                    padding: EdgeInsets.only(top: 4, left: 1, bottom: 1),
+                    height: ScreenUtil().setHeight(200),
+                    child: InkWell(
+                      onTap: () {
+                        jumpDetail(context, floor[2]["goodsId"]);
+                      },
+                      child: Image.network(
+                        floor[2]["image"],
+                        fit: BoxFit.fitHeight,
+                      ),
+                    )),
+                Container(
+                    padding: EdgeInsets.only(top: 1, left: 1),
+                    height: ScreenUtil().setHeight(200),
+                    child: InkWell(
+                      onTap: () {
+                        jumpDetail(context, floor[3]["goodsId"]);
+                      },
+                      child: Image.network(
+                        floor[3]["image"],
+                        fit: BoxFit.cover,
+                      ),
+                    )),
+                Container(
+                    padding: EdgeInsets.only(top: 1, left: 1),
+                    height: ScreenUtil().setHeight(200),
+                    child: InkWell(
+                      onTap: () {
+                        jumpDetail(context, floor[4]["goodsId"]);
+                      },
+                      child: Image.network(
+                        floor[4]["image"],
+                        fit: BoxFit.cover,
+                      ),
+                    )),
+              ],
+            ),
+          )
+        ],
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
       ),
     );
   }
@@ -263,33 +464,4 @@ class RecommendListUI extends StatelessWidget {
       ),
     );
   }
-}
-
-class Floor extends StatelessWidget{
-
-  final Map floor;
-
-  Floor({ Key key, this.floor }): super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    double width = ScreenUtil.screenWidth;
-    return Container(
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              children: [],
-            ),
-          ),
-          Expanded(
-            child: Column(
-              children: [],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
 }

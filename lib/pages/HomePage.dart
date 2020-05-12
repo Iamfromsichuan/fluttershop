@@ -63,7 +63,10 @@ class _HomePageState extends State<HomePage>
                 children: [
                   SwiperDiy(swiperDataList: swiperDataList),
                   TopNavigator(category: categoryList),
-                  RecommendListUI(recommendList: recommendList,),
+                  RecommendListUI(
+                    recommendList: recommendList,
+                  ),
+                  FloorPicUI(floorPic: fp1,),
                 ],
               ),
               loadMore: () async {
@@ -75,6 +78,27 @@ class _HomePageState extends State<HomePage>
             child: Text('加载中'),
           );
         },
+      ),
+    );
+  }
+}
+
+class FloorPicUI extends StatelessWidget {
+  final Map floorPic;
+
+  FloorPicUI({Key key, this.floorPic}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 10.0),
+      color: Colors.white,
+      height: ScreenUtil().setHeight(200),
+      child: InkWell(
+        child: Image.network(
+          floorPic["PICTRUE_ADDRESS"],
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
@@ -195,20 +219,14 @@ class RecommendListUI extends StatelessWidget {
 
   Widget _item(context, index) {
     return InkWell(
-      onTap: () {
-
-      },
+      onTap: () {},
       child: Container(
         width: ScreenUtil().setWidth(280),
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border(
-            left: BorderSide(
-              width: 5.0,
-              color: KColor.defaultBorderColor
-            )
-          ),
+              left: BorderSide(width: 5.0, color: KColor.defaultBorderColor)),
         ),
         child: Column(
           children: [
@@ -219,10 +237,8 @@ class RecommendListUI extends StatelessWidget {
               ),
             ),
             Text(
-                "¥${recommendList[index]["presentPrice"]}",
-              style: TextStyle(
-                color: KColor.presentPriceColor
-              ),
+              "¥${recommendList[index]["presentPrice"]}",
+              style: TextStyle(color: KColor.presentPriceColor),
             ),
             Text(
               "¥${recommendList[index]["oriPrice"]}",
@@ -247,4 +263,33 @@ class RecommendListUI extends StatelessWidget {
       ),
     );
   }
+}
+
+class Floor extends StatelessWidget{
+
+  final Map floor;
+
+  Floor({ Key key, this.floor }): super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    double width = ScreenUtil.screenWidth;
+    return Container(
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              children: [],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              children: [],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
 }

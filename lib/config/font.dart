@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class KFont{
+class KFont {
   static TextStyle oriPriceStyle = TextStyle(
     color: Colors.black26,
     decoration: TextDecoration.lineThrough,
   );
+
+  static String Avenir = "Avenir";
+  static String Montserrat = "Montserrat";
+  static String Iconfont = "Iconfont";
 }

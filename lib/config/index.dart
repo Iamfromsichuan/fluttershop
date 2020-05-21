@@ -5,3 +5,5 @@ export 'string.dart';
 export 'http_conf.dart';
 export 'screen.dart';
 export 'Radii.dart';
+export 'Shadow.dart';
+export 'border.dart';

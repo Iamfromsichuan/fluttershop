@@ -1,4 +1,4 @@
-class KString{
+class KString {
   static const String mainTitle = "Flutter女装商城";
   static const String homeTitle = "首页";
   static const String category = "分类";
@@ -7,4 +7,5 @@ class KString{
   static const String moreInfo = "加载中。。。。";
   static const String loadReadyText = "上拉加载";
   static const String recommend = "商品推荐";
+  static const ImageAssetsBasePath = 'assets/images/';
 }

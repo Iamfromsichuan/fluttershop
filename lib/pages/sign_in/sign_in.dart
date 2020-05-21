@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shop/config/index.dart';
+import 'package:shop/widgets/input.dart';
+import 'package:shop/widgets/widgets.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -8,6 +10,9 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _pwdController = TextEditingController();
+
   Widget _buildLogo() {
     return Container(
       width: setWidth(110),
@@ -42,7 +47,7 @@ class _SignInState extends State<SignIn> {
                 Positioned(
                   top: setWidth(13),
                   child: Image.asset(
-                     "${KString.ImageAssetsBasePath}logo.png",
+                    "${KString.ImageAssetsBasePath}logo.png",
                     fit: BoxFit.none,
                   ),
                 )
@@ -80,7 +85,48 @@ class _SignInState extends State<SignIn> {
   }
 
   Widget _buildInputForm() {
-    return Container();
+    var marginTop = 49.0;
+    return Container(
+      width: setWidth(295),
+//      height: setHeight(44),
+      margin: EdgeInsets.only(top: setHeight(49)),
+      child: Column(
+        children: [
+          Input(
+            controller: _emailController,
+            hintText: "Email",
+            marginTop: 0,
+            keyboardKey: TextInputType.datetime,
+          ),
+          Input(
+            controller: _pwdController,
+            hintText: "Password",
+            isPassword: true,
+          ),
+          Container(
+            margin: EdgeInsets.only(top: setHeight(15.0)),
+            child: Row(
+              children: [
+                btnFlatButtonWidget(
+                  onPressed: () {},
+                  gbColor: KColor.thirdElement,
+                  fontColor: KColor.primaryElementText,
+                  title: "Sign In"
+                ),
+                Spacer(),
+                btnFlatButtonWidget(
+                  onPressed: () {},
+                  gbColor: KColor.primaryElement,
+                  fontColor: KColor.primaryElementText,
+                  title: "Sign Up"
+                ),
+              ],
+            ),
+          ),
+
+        ],
+      ),
+    );
   }
 
   Widget _buildThirdPartLogin() {

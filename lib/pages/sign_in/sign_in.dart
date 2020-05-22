@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shop/config/index.dart';
-import 'package:shop/widgets/input.dart';
 import 'package:shop/widgets/widgets.dart';
 
 class SignIn extends StatefulWidget {
@@ -12,6 +11,8 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _pwdController = TextEditingController();
+
+
 
   Widget _buildLogo() {
     return Container(
@@ -123,7 +124,24 @@ class _SignInState extends State<SignIn> {
               ],
             ),
           ),
-
+          Container(
+            height: setHeight(22),
+            margin: EdgeInsets.only(top: setHeight(20)),
+            child: FlatButton(
+              onPressed: () {},
+              child: Text(
+                "Forget password",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: KColor.secondaryElementText,
+                  fontFamily: KFont.Avenir,
+                  fontWeight: FontWeight.w400,
+                  fontSize: setFont(16),
+                  height: 1,
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );

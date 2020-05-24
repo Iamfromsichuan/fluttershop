@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shop/api/user.dart';
 import 'package:shop/config/index.dart';
+import 'package:shop/entity/user.dart';
+import 'package:shop/global.dart';
+import 'package:shop/util/security.dart';
 import 'package:shop/widgets/widgets.dart';
 
 class SignIn extends StatefulWidget {
@@ -14,6 +18,21 @@ class _SignInState extends State<SignIn> {
 
   _hanNavSignUp() {
     Navigator.pushNamed(context, "/sign_up");
+  }
+
+  _handleSignIn() async {
+    print('---------------------------------------------------');
+    UserLoginRequestEntity params = UserLoginRequestEntity(
+      email: _emailController.value.text,
+      password: zhSHA256(_pwdController.value.text),
+    );
+//    try{
+//      UserLoginResponseEntity response = await UserApi.login(params: params);
+//      Global.saveProfile(response);
+//      print(response.toJson());
+//    } catch (e) {
+//      print(e);
+//    }
   }
 
   Widget _buildLogo() {
@@ -111,18 +130,18 @@ class _SignInState extends State<SignIn> {
             child: Row(
               children: [
                 btnFlatButtonWidget(
-                    onPressed: _hanNavSignUp,
-                    gbColor: KColor.thirdElement,
-                    fontColor: KColor.primaryElementText,
-                    title: "Sign In"),
+                  onPressed: _hanNavSignUp,
+                  gbColor: KColor.thirdElement,
+                  fontColor: KColor.primaryElementText,
+                  title: "Sign Up",
+                ),
                 Spacer(),
                 btnFlatButtonWidget(
-                    onPressed: () {
-                      toastInfo(msg: "Email error");
-                    },
-                    gbColor: KColor.primaryElement,
-                    fontColor: KColor.primaryElementText,
-                    title: "Sign Up"),
+                  onPressed: _handleSignIn,
+                  gbColor: KColor.primaryElement,
+                  fontColor: KColor.primaryElementText,
+                  title: "Sign In",
+                ),
               ],
             ),
           ),
@@ -212,6 +231,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: Column(
           children: [

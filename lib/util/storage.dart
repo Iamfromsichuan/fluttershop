@@ -1,24 +1,33 @@
-import 'package:localstorage/localstorage.dart';
-import 'package:shop/config/index.dart';
+import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageUtil{
-  static final _singleton = new StorageUtil._internal();
+  static StorageUtil _instance = new StorageUtil._();
 
-  LocalStorage localStorage;
+  StorageUtil._();
 
-  factory StorageUtil() {
-    return _singleton;
+  factory StorageUtil() => _instance;
+
+  static SharedPreferences _prefs;
+
+  static Future<void> init() async{
+    if (_prefs == null) {
+      _prefs = await SharedPreferences.getInstance();
+    }
   }
 
-  StorageUtil._internal(){
-    localStorage = new LocalStorage(STORAGE_MASTER_KEY);
+  Future<bool> setJson(String key, dynamic jsonVal) {
+    String jsonString = jsonEncode(jsonVal);
+    return _prefs.setString(key, jsonString);
   }
 
-  String getItem(String key) {
-    return localStorage.getItem(key);
+  dynamic getJson(String key) {
+    String jsonString = _prefs.getString(key);
+    return jsonString == null ? null : jsonDecode(jsonString);
   }
 
-  Future<void> setItem(String key, String val) async {
-    await localStorage.setItem(key, val);
+  Future<bool> remove(String key) {
+    return _prefs.remove(key);
   }
 }

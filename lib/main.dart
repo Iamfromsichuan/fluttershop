@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provide/provide.dart';
+import 'package:shop/global.dart';
 import 'package:shop/pages/index_page.dart';
 import 'package:shop/pages/welcome.dart';
 import 'package:shop/router.dart';
@@ -8,11 +9,12 @@ import './provide/current_index_provide.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
-  var currentIndexProvide = CurrentIndexProvide();
-  var provides = Providers();
-
-  provides..provide(Provider<CurrentIndexProvide>.value(currentIndexProvide));
-  runApp(ProviderNode(child: MyApp(), providers: provides,));
+//  var currentIndexProvide = CurrentIndexProvide();
+//  var provides = Providers();
+//
+//  provides..provide(Provider<CurrentIndexProvide>.value(currentIndexProvide));
+//  runApp(ProviderNode(child: MyApp(), providers: provides,));
+  Global.init().then((e) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {

@@ -1,12 +1,35 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
+// 登录请求
+class UserLoginRequestEntity {
+  String email;
+  String password;
+
+  UserLoginRequestEntity({
+    @required this.email,
+    @required this.password,
+  });
+
+  factory UserLoginRequestEntity.fromJson(Map<String, dynamic> json) =>
+      UserLoginRequestEntity(
+        email: json["email"],
+        password: json["password"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "email": email,
+        "password": password,
+      };
+}
+
+// 登录返回
 class UserLoginResponseEntity {
   String accessToken;
   String displayName;
   List<String> channels;
 
   UserLoginResponseEntity({
-    this.accessToken,
+    @required this.accessToken,
     this.displayName,
     this.channels,
   });
@@ -22,26 +45,5 @@ class UserLoginResponseEntity {
         "access_token": accessToken,
         "display_name": displayName,
         "channels": List<dynamic>.from(channels.map((x) => x)),
-      };
-}
-
-class UserLoginRequestEntity {
-  String username;
-  String password;
-
-  UserLoginRequestEntity({
-    @required this.username,
-    @required this.password,
-  });
-
-  factory UserLoginRequestEntity.fromJson(Map<String, dynamic> json) =>
-      UserLoginRequestEntity(
-        username: json["username"],
-        password: json["password"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "username": username,
-        "password": password,
       };
 }

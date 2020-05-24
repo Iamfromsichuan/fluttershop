@@ -8,3 +8,5 @@ export 'Radii.dart';
 export 'Shadow.dart';
 export 'border.dart';
 export 'storage.dart';
+export 'cache.dart';
+export 'proxy.dart';

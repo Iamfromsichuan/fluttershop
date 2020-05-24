@@ -35,3 +35,25 @@ Widget btnFlatButtonWidget({
     ),
   );
 }
+
+Widget btnFlatButtonBorderOnlyWidget({
+  @required VoidCallback onPressed,
+  double width = 88,
+  double height = 44,
+  String iconFileName,
+}) {
+  return Container(
+    width: setWidth(width),
+    height: setHeight(height),
+    child: FlatButton(
+      onPressed: onPressed,
+      shape: RoundedRectangleBorder(
+        side: Borders.primaryBorder,
+        borderRadius: Radii.k6pxRadius,
+      ),
+      child: Image.asset(
+        "assets/images/icons-$iconFileName.png",
+      ),
+    ),
+  );
+}

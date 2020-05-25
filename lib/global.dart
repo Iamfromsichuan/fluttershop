@@ -3,10 +3,9 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shop/util/http_util.dart';
-import 'package:shop/util/storage.dart';
+import 'package:shop/util/index.dart';
 
-import 'config/storage.dart';
+import 'config/index.dart';
 import 'entity/entity.dart';
 
 class Global {

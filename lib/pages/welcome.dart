@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shop/config/color.dart';
 import 'package:shop/config/index.dart';
 
 class WelcomePage extends StatefulWidget {

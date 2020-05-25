@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shop/api/apis.dart';
-import 'package:shop/api/user.dart';
 import 'package:shop/config/index.dart';
-import 'package:shop/entity/categories.dart';
-import 'package:shop/entity/user.dart';
-import 'package:shop/global.dart';
-import 'package:shop/util/security.dart';
+import 'package:shop/entity/entity.dart';
+import 'package:shop/util/index.dart';
 import 'package:shop/widgets/widgets.dart';
 
 class SignIn extends StatefulWidget {

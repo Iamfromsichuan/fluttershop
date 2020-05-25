@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shop/api/apis.dart';
 import 'package:shop/api/user.dart';
 import 'package:shop/config/index.dart';
+import 'package:shop/entity/categories.dart';
 import 'package:shop/entity/user.dart';
 import 'package:shop/global.dart';
 import 'package:shop/util/security.dart';
@@ -21,11 +23,18 @@ class _SignInState extends State<SignIn> {
   }
 
   _handleSignIn() async {
-    print('---------------------------------------------------');
+
     UserLoginRequestEntity params = UserLoginRequestEntity(
       email: _emailController.value.text,
       password: zhSHA256(_pwdController.value.text),
     );
+    print(params);
+
+    print('---------------------------------------------------');
+
+    List<CategoryResponseEntity> list = await NewsAPI.categories();
+
+    print(list);
 //    try{
 //      UserLoginResponseEntity response = await UserApi.login(params: params);
 //      Global.saveProfile(response);

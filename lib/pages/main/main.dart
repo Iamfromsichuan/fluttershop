@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shop/api/apis.dart';
 import 'package:shop/config/index.dart';
 import 'package:shop/entity/entity.dart';
+import 'package:shop/pages/main/recommandWidget.dart';
 
 import 'categories_widget.dart';
 
@@ -49,9 +50,8 @@ class _MainPageState extends State<MainPage> {
   }
 
   Widget _buildRecommand() {
-    return Container(
-      height: setHeight(490.0),
-      color: Colors.yellow,
+    return recommandWidget(
+      newsRecommend: _newsRecommend,
     );
   }
 

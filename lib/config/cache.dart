@@ -1,4 +1,4 @@
-const CACHE_ENABLE = false;
+const CACHE_ENABLE = true;
 
 const CACHE_MAXAGE = 1000;
 

@@ -20,8 +20,8 @@ class _SignInState extends State<SignIn> {
   }
 
   _handleSignIn() async {
-
-    UserLoginRequestEntity params = UserLoginRequestEntity(
+    Navigator.pushNamed(context, "/app");
+    /*UserLoginRequestEntity params = UserLoginRequestEntity(
       email: _emailController.value.text,
       password: zhSHA256(_pwdController.value.text),
     );
@@ -31,7 +31,7 @@ class _SignInState extends State<SignIn> {
 
     List<CategoryResponseEntity> list = await NewsAPI.categories();
 
-    print(list);
+    print(list);*/
 //    try{
 //      UserLoginResponseEntity response = await UserApi.login(params: params);
 //      Global.saveProfile(response);

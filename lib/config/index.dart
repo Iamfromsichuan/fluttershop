@@ -3,6 +3,7 @@ export 'cache.dart';
 export 'color.dart';
 export 'font.dart';
 export 'http_conf.dart';
+export 'iconfont.dart';
 export 'legnth.dart';
 export 'proxy.dart';
 export 'Radii.dart';

@@ -22,9 +22,11 @@ class KColor{
 
 
   static const Color secondaryElement = Color.fromARGB(255, 246, 246, 246);
+
   static const Color secondaryElementText = Color.fromARGB(255, 41, 103, 255);
 
   static const Color thirdElement = Color.fromARGB(255, 0, 0, 0);
   static const Color thirdElementText = Color.fromARGB(255, 45, 45, 47);
 
+  static const Color tabBarElement = Color.fromARGB(255, 208, 208, 208);
 }

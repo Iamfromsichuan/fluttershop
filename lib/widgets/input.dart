@@ -10,7 +10,7 @@ Widget Input({
   String hintText,
   bool isPassword = false,
 }) {
-  return  Container(
+  return Container(
     height: setHeight(44),
     margin: EdgeInsets.only(top: setHeight(marginTop)),
     decoration: BoxDecoration(
@@ -33,6 +33,52 @@ Widget Input({
       ),
       maxLines: 1,
       autocorrect: false,
+      obscureText: isPassword,
+    ),
+  );
+}
+
+Widget inputEmailEdit({
+  marginTop = 19,
+  keyboardType = TextInputType.emailAddress,
+  hintText = 'Email',
+  isPassword = false,
+  @required TextEditingController controller,
+  bool autoFocus = false,
+}) {
+  return Container(
+    height: setHeight(44.0),
+    margin: EdgeInsets.only(top: setHeight(marginTop)),
+    decoration: BoxDecoration(
+        color: KColor.primaryBackground,
+        borderRadius: Radii.k6pxRadius,
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromARGB(41, 0, 0, 0),
+            offset: Offset(0, 1),
+            blurRadius: 0,
+          )
+        ]),
+    child: TextField(
+      autocorrect: false,
+      controller: controller,
+      keyboardType: keyboardType,
+      decoration: InputDecoration(
+        hintText: hintText,
+        contentPadding: EdgeInsets.fromLTRB(20, 10, 0, 9),
+        border: InputBorder.none,
+        hintStyle: TextStyle(
+          color: KColor.primaryText,
+        ),
+      ),
+      style: TextStyle(
+        color: KColor.primaryText,
+        fontFamily: KFont.Avenir,
+        fontWeight: FontWeight.w400,
+        fontSize: setFont(18),
+      ),
+      maxLines: 1,
+      autofocus: autoFocus,
       obscureText: isPassword,
     ),
   );

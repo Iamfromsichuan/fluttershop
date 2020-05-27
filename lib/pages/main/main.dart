@@ -8,6 +8,7 @@ import 'package:shop/pages/main/recommandWidget.dart';
 
 import 'ad_widget.dart';
 import 'categories_widget.dart';
+import 'news_letter_widget.dart';
 import 'news_widget.dart';
 
 class MainPage extends StatefulWidget {
@@ -101,10 +102,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   Widget _buildEmailSubscribe() {
-    return Container(
-      height: setHeight(259.0),
-      color: Colors.blue,
-    );
+    return newsLetterWidget();
   }
 
   @override

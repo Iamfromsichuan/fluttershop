@@ -39,7 +39,7 @@ Widget Input({
 }
 
 Widget inputEmailEdit({
-  marginTop = 19,
+  double marginTop = 19,
   keyboardType = TextInputType.emailAddress,
   hintText = 'Email',
   isPassword = false,

@@ -39,6 +39,7 @@ Widget newsLetterWidget() {
           hintText: 'Email',
           isPassword: false,
           controller: null,
+          autoFocus: false,
         ),
         Padding(
           padding: EdgeInsets.only(top: setHeight(15.0)),

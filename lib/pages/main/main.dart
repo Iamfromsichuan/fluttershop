@@ -6,7 +6,9 @@ import 'package:shop/entity/entity.dart';
 import 'package:shop/pages/main/channel_widget.dart';
 import 'package:shop/pages/main/recommandWidget.dart';
 
+import 'ad_widget.dart';
 import 'categories_widget.dart';
+import 'news_widget.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -71,10 +73,31 @@ class _MainPageState extends State<MainPage> {
   }
 
   Widget _buildNewsList() {
-    return Container(
-      height: setHeight(161 * 5.0 + 100),
-      color: Colors.green,
-    );
+    return _newsPageList == null
+        ? Container(
+            height: setHeight(161 * 5.0 + 100),
+            color: Colors.green,
+          )
+        : Column(
+            children: _newsPageList.items.map<Widget>((e) {
+              List<Widget> widgets = <Widget>[
+                newsWidget(newsItem: e),
+                Divider(
+                  height: 1,
+                ),
+              ];
+              var index = _newsPageList.items.indexOf(e);
+              if ((index % 5) == 0) {
+                widgets.addAll(<Widget>[
+                  adWidget(),
+                  Divider(height: 1,),
+                ]);
+              }
+              return Column(
+                children: widgets,
+              );
+            }).toList(),
+          );
   }
 
   Widget _buildEmailSubscribe() {

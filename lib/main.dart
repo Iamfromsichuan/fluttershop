@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop/global.dart';
+import 'package:shop/pages/index/index.dart';
 import 'package:shop/pages/welcome.dart';
 import 'package:shop/router.dart';
 import './config/index.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: staticRoutes,
         // inheritWidget 后面深入学习
-         home: WelcomePage(),
+         home: Index(),
       ),
     );
   }

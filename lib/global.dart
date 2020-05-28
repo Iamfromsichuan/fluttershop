@@ -15,10 +15,18 @@ class Global {
 
   static bool get isRelease => bool.fromEnvironment("dart.vm.product");
 
+  static bool isOfflinelogin = false;
+  static bool isFirstOpen = false;
+
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
     await StorageUtil.init();
     HttpUtil();
+
+    isFirstOpen = StorageUtil().getBool(STORAGE_DEVICE_ALREADY_OPEN_KEY);
+    if (isFirstOpen) {
+      StorageUtil().setBool(STORAGE_DEVICE_ALREADY_OPEN_KEY, true);
+    }
 
     var _profileJson = StorageUtil().getJson(STORE_USER_PROFILE_KEY);
     if (_profileJson != null) {

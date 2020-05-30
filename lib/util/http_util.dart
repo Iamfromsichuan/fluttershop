@@ -4,10 +4,27 @@ import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:flutter/material.dart';
 import 'package:shop/config/index.dart';
 import 'package:shop/global.dart';
+import 'package:shop/util/authentication.dart';
 import 'package:shop/util/net_cache.dart';
 import 'package:shop/util/server.dart';
+import 'package:shop/widgets/toast_info.dart';
+
+// 异常处理
+
+class ErrorEntity implements Exception {
+  int code;
+  String message;
+
+  ErrorEntity({this.code, this.message});
+
+  String toString() {
+    if (message == null) return "Exception";
+    return "Exception: code $code, $message";
+  }
+}
 
 /*
   * http 操作类
@@ -20,6 +37,7 @@ import 'package:shop/util/server.dart';
 */
 class HttpUtil {
   static HttpUtil _instance = HttpUtil._internal();
+
   factory HttpUtil() => _instance;
 
   Dio dio;
@@ -70,7 +88,20 @@ class HttpUtil {
     }, onResponse: (Response response) {
       return response; // continue
     }, onError: (DioError e) {
-      return createErrorEntity(e);
+      ErrorEntity eInfo = createErrorEntity(e);
+      // 错误提示
+      toastInfo(msg: eInfo.message);
+      // 错误交互处理
+      var context = e.request.extra["context"];
+      if (context != null) {
+        switch (eInfo.code) {
+          case 401: // 没有权限 重新登录
+            goLoginPage(context);
+            break;
+          default:
+        }
+      }
+      return eInfo;
     }));
 
     // 加内存缓存
@@ -200,7 +231,7 @@ class HttpUtil {
   /// 读取本地配置
   Map<String, dynamic> getAuthorizationHeader() {
     var headers;
-    String accessToken = Global.profile.accessToken;
+    String accessToken = Global.profile?.accessToken;
     if (accessToken != null) {
       headers = {
         'Authorization': 'Bearer $accessToken',
@@ -214,41 +245,50 @@ class HttpUtil {
   /// noCache 是否不缓存 默认 true
   /// list 是否列表 默认 false
   /// cacheKey 缓存key
+  /// cacheDisk 是否磁盘缓存
   Future get(
-      String path, {
-        dynamic params,
-        Options options,
-        bool refresh = false,
-        bool noCache = !CACHE_ENABLE,
-        bool list = false,
-        String cacheKey,
-      }) async {
-    try {
-      Options requestOptions = options ?? Options();
-      requestOptions = requestOptions.merge(extra: {
-        "refresh": refresh,
-        "noCache": noCache,
-        "list": list,
-        "cacheKey": cacheKey,
-      });
-      Map<String, dynamic> _authorization = getAuthorizationHeader();
-      if (_authorization != null) {
-        requestOptions = requestOptions.merge(headers: _authorization);
-      }
-
-      var response = await dio.get(path,
-          queryParameters: params,
-          options: requestOptions,
-          cancelToken: cancelToken);
-      return response.data;
-    } on DioError catch (e) {
-      throw createErrorEntity(e);
+    String path, {
+    @required BuildContext context,
+    dynamic params,
+    Options options,
+    bool refresh = false,
+    bool noCache = !CACHE_ENABLE,
+    bool list = false,
+    String cacheKey,
+    bool cacheDisk = false,
+  }) async {
+    Options requestOptions = options ?? Options();
+    requestOptions = requestOptions.merge(extra: {
+      "context": context,
+      "refresh": refresh,
+      "noCache": noCache,
+      "list": list,
+      "cacheKey": cacheKey,
+      "cacheDisk": cacheDisk,
+    });
+    Map<String, dynamic> _authorization = getAuthorizationHeader();
+    if (_authorization != null) {
+      requestOptions = requestOptions.merge(headers: _authorization);
     }
+
+    var response = await dio.get(path,
+        queryParameters: params,
+        options: requestOptions,
+        cancelToken: cancelToken);
+    return response.data;
   }
 
   /// restful post 操作
-  Future post(String path, {dynamic params, Options options}) async {
+  Future post(
+    String path, {
+    @required BuildContext context,
+    dynamic params,
+    Options options,
+  }) async {
     Options requestOptions = options ?? Options();
+    requestOptions = requestOptions.merge(extra: {
+      "context": context,
+    });
     Map<String, dynamic> _authorization = getAuthorizationHeader();
     if (_authorization != null) {
       requestOptions = requestOptions.merge(headers: _authorization);
@@ -259,8 +299,16 @@ class HttpUtil {
   }
 
   /// restful put 操作
-  Future put(String path, {dynamic params, Options options}) async {
+  Future put(
+    String path, {
+    @required BuildContext context,
+    dynamic params,
+    Options options,
+  }) async {
     Options requestOptions = options ?? Options();
+    requestOptions = requestOptions.merge(extra: {
+      "context": context,
+    });
     Map<String, dynamic> _authorization = getAuthorizationHeader();
     if (_authorization != null) {
       requestOptions = requestOptions.merge(headers: _authorization);
@@ -271,8 +319,16 @@ class HttpUtil {
   }
 
   /// restful patch 操作
-  Future patch(String path, {dynamic params, Options options}) async {
+  Future patch(
+    String path, {
+    @required BuildContext context,
+    dynamic params,
+    Options options,
+  }) async {
     Options requestOptions = options ?? Options();
+    requestOptions = requestOptions.merge(extra: {
+      "context": context,
+    });
     Map<String, dynamic> _authorization = getAuthorizationHeader();
     if (_authorization != null) {
       requestOptions = requestOptions.merge(headers: _authorization);
@@ -283,8 +339,16 @@ class HttpUtil {
   }
 
   /// restful delete 操作
-  Future delete(String path, {dynamic params, Options options}) async {
+  Future delete(
+    String path, {
+    @required BuildContext context,
+    dynamic params,
+    Options options,
+  }) async {
     Options requestOptions = options ?? Options();
+    requestOptions = requestOptions.merge(extra: {
+      "context": context,
+    });
     Map<String, dynamic> _authorization = getAuthorizationHeader();
     if (_authorization != null) {
       requestOptions = requestOptions.merge(headers: _authorization);
@@ -295,8 +359,16 @@ class HttpUtil {
   }
 
   /// restful post form 表单提交操作
-  Future postForm(String path, {dynamic params, Options options}) async {
+  Future postForm(
+    String path, {
+    @required BuildContext context,
+    dynamic params,
+    Options options,
+  }) async {
     Options requestOptions = options ?? Options();
+    requestOptions = requestOptions.merge(extra: {
+      "context": context,
+    });
     Map<String, dynamic> _authorization = getAuthorizationHeader();
     if (_authorization != null) {
       requestOptions = requestOptions.merge(headers: _authorization);
@@ -306,17 +378,5 @@ class HttpUtil {
         options: requestOptions,
         cancelToken: cancelToken);
     return response.data;
-  }
-}
-
-// 异常处理
-class ErrorEntity implements Exception {
-  int code;
-  String message;
-  ErrorEntity({this.code, this.message});
-
-  String toString() {
-    if (message == null) return "Exception";
-    return "Exception: code $code, $message";
   }
 }

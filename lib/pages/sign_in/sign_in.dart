@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shop/api/apis.dart';
 import 'package:shop/config/index.dart';
 import 'package:shop/entity/entity.dart';
+import 'package:shop/global.dart';
 import 'package:shop/util/index.dart';
 import 'package:shop/widgets/widgets.dart';
 
@@ -20,7 +21,6 @@ class _SignInState extends State<SignIn> {
   }
 
   _handleSignIn() async {
-    Navigator.pushNamed(context, "/app");
     /*UserLoginRequestEntity params = UserLoginRequestEntity(
       email: _emailController.value.text,
       password: zhSHA256(_pwdController.value.text),
@@ -30,7 +30,6 @@ class _SignInState extends State<SignIn> {
     print('---------------------------------------------------');
 
     List<CategoryResponseEntity> list = await NewsAPI.categories();
-
     print(list);*/
 //    try{
 //      UserLoginResponseEntity response = await UserApi.login(params: params);
@@ -39,6 +38,16 @@ class _SignInState extends State<SignIn> {
 //    } catch (e) {
 //      print(e);
 //    }
+    UserLoginRequestEntity params = UserLoginRequestEntity(
+      email: _emailController.value.text,
+      password: _pwdController.value.text,
+    );
+    UserLoginResponseEntity userProfile = await UserAPI.login(
+      params: params,
+      context: context,
+    );
+    Global.saveProfile(userProfile);
+    Navigator.pushNamed(context, "/app");
   }
 
   Widget _buildLogo() {

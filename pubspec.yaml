@@ -54,6 +54,8 @@ dependencies:
   # ui
   flutter_easyrefresh: ^2.1.0
 
+  auto_route: ^0.4.4
+
   # 路由
   fluro: ^1.4.0
   flutter_html: ^0.9.6
@@ -62,6 +64,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  auto_route_generator: ^0.4.4
+  build_runner:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

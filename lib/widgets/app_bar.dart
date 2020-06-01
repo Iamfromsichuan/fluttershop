@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pk_skeleton/pk_skeleton.dart';
 import 'package:shop/config/index.dart';
 
 Widget appBar({
@@ -23,5 +24,13 @@ Widget appBar({
           },
         ),
     actions: actions,
+  );
+}
+
+Widget cardListSkeleton() {
+  return PKCardListSkeleton(
+    isCircularImage: true,
+    isBottomLinesActive: true,
+    length: 10,
   );
 }

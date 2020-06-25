@@ -25,7 +25,7 @@ class _IndexState extends State<Index> {
     print("======================>>>>>>>==================");
     print(Global.isFirstOpen);
     return Scaffold(
-      body: Global.isFirstOpen == true
+      body: Global.isFirstOpen != true
           ? WelcomePage()
           : Global.isOfflinelogin ? ApplicationPage() : SignIn(),
     );

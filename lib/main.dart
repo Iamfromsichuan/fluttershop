@@ -1,9 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/global.dart';
-import 'package:shop/pages/index/index.dart';
 import 'package:shop/provide/app.dart';
-import 'package:shop/router.dart';
+import 'package:shop/routes/router.gr.dart';
 import './config/index.dart';
 
 void main() {
@@ -38,9 +38,14 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: KColor.primaryColor,
         ),
-        routes: staticRoutes,
-        // inheritWidget 后面深入学习
-        home: Index(),
+//        routes: staticRoutes,
+//        // inheritWidget 后面深入学习
+//        home: Index(),
+        builder: ExtendedNavigator<AppRouter>(
+          initialRoute: Routes.indexPageRoute,
+          router: AppRouter(),
+          guards: [],
+        ),
       ),
     );
   }
